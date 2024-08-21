@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+  </head>
+  <body>
+    <input type="text" id="text" placeholder="Enter City">
+    <button id="button">Submit</button>
+
+    <h2>Condition <span id="condition">_____</span></h2>
+  <h2>Temperature is <span id="temp_return">_____</span></h2>
+  <h2>Feels like <span id="feels_like">_____</span></h2>
+  <h2>Humidity <span id="humidity">_____</span></h2>
+  <h2>Wind (KPH) <span id="wind_kph">_____</span></h2>
+  <h2>Wind (MPH) <span id="wind_mph">_____</span></h2>
+  <script>
+    const text = document.getElementById('text');
+    const button =document.getElementById('button');
+const temp_return = document.getElementById('temp_return');
+const feels_like = document.getElementById("feels_like");
+const humidity = document.getElementById("humidity");
+const wind_kph =document.getElementById("wind_kph");
+const wind_mph =document.getElementById("wind_mph");
+const condition = document.getElementById("condition");
+    async function getdata(cityname){
+        const promise = await fetch(`http://api.weatherapi.com/v1/current.json?key=2793f728cd3949599a7135150241805&q=${cityname}&aqi=yes`);
+        return await promise.json();
+    }
+    button.addEventListener('click', async ()=>{
+        const value = text.value;
+       const result = await getdata(value);
+       temp_return.innerText = `${result.current.temp_c}`;
+       feels_like.innerText =`${result.current.feelslike_c}`;
+       humidity.innerText =`${result.current.humidity}`;
+       wind_kph.innerText =`${result.current.wind_kph}`;
+       wind_mph.innerText =`${result.current.wind_mph}`;
+       condition.innerText =`${result.current.condition.text}`;
+       console.log(result);
+    })
+  </script>
+</html>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #74ebd5, #acb6e5);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+input[type="text"] {
+    width: 300px;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 2px solid #007BFF;
+    border-radius: 25px;
+    font-size: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #0056b3;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    padding: 12px 25px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 15px 20px;
+    border-radius: 25px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin: 10px 0;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+span {
+    color: #007BFF;
+    font-weight: bold;
+}
+
+</style>
+
+// By fetch method we first console all data in that there will be diifernt section then according to your requirement we will fetch like this "result.current.temp_c"
